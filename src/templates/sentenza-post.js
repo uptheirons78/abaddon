@@ -1,43 +1,39 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-import { rhythm, scale } from "../utils/typography";
 
-class SentenzaTemplate extends React.Component {
-  render() {
-    const post = this.props.data.mdx;
-    const siteTitle = this.props.data.site.siteMetadata.title;
+const SentenzaTemplate = ({ data }) => {
+  const post = data.mdx;
 
-    return (
-      <Layout location={this.props.location} title={siteTitle}>
-        <SEO
-          title={post.frontmatter.title}
-          description={post.frontmatter.description || post.excerpt}
-        />
-        <h1>{post.frontmatter.title}</h1>
-        <p
-          style={{
-            ...scale(-1 / 5),
-            display: `block`,
-            marginBottom: rhythm(1),
-            marginTop: rhythm(-1),
-          }}
-        >
-          {post.frontmatter.date}
-        </p>
-        <MDXRenderer>{post.body}</MDXRenderer>
-        <hr
-          style={{
-            marginBottom: rhythm(1),
-          }}
-        />
-      </Layout>
-    );
-  }
-}
+  return (
+    <Layout>
+      <SEO
+        title={post.frontmatter.title}
+        description={post.frontmatter.description || post.excerpt}
+      />
+      <h1>{post.frontmatter.title}</h1>
+      <p
+        style={{
+          display: `block`,
+          marginBottom: "1rem",
+          marginTop: "1rem",
+        }}
+      >
+        {post.frontmatter.date}
+      </p>
+      <MDXRenderer>{post.body}</MDXRenderer>
+      <hr
+        style={{
+          marginBottom: "1rem",
+        }}
+      />
+      <Link to="/">Home</Link>
+    </Layout>
+  );
+};
 
 export default SentenzaTemplate;
 

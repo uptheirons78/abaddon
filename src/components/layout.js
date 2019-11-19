@@ -1,88 +1,50 @@
 import React from "react";
-import { Link } from "gatsby";
-import styled from "styled-components";
+import { useStaticQuery, graphql } from "gatsby";
+import styled, { ThemeProvider } from "styled-components";
+import GlobalStyle from "./styles/GlobalStyles";
 
-import { rhythm, scale } from "../utils/typography";
+// Our Theme with Styled Components
+const theme = {
+  primaryColor: "#f58742",
+  black: "#393939",
+  lightBlack: "#5a5a5a",
+  grey: "#f7f7f7",
+  meta: "#a7a7a7",
+  white: "#edf0f1",
+  maxWidth: "1400px",
+};
 
-class Layout extends React.Component {
-  render() {
-    const { location, title, children } = this.props;
-    const rootPath = `${__PATH_PREFIX__}/`;
-    const blogPath = `${__PATH_PREFIX__}/blog/`;
-    let header;
-
-    if (location.pathname === rootPath || location.pathname === blogPath) {
-      header = (
-        <h1
-          style={{
-            ...scale(1.5),
-            marginBottom: rhythm(1.5),
-            marginTop: 0,
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-            }}
-            to={location.pathname === blogPath ? `/blog/` : `/`}
-          >
-            {title}
-          </Link>
-        </h1>
-      );
-    } else {
-      header = (
-        <h3
-          style={{
-            fontFamily: `Montserrat, sans-serif`,
-            marginTop: 0,
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-            }}
-            to={`/blog/`}
-          >
-            {title}
-          </Link>
-        </h3>
-      );
+const Layout = ({ children }) => {
+  const data = useStaticQuery(graphql`
+    query SiteTitleQuery {
+      site {
+        siteMetadata {
+          title
+        }
+      }
     }
-    return (
+  `);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
       <Wrapper>
-        <div
-          style={{
-            marginLeft: `auto`,
-            marginRight: `auto`,
-            maxWidth: rhythm(24),
-            padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
-          }}
-        >
-          <header>{header}</header>
-          <main>{children}</main>
-        </div>
-        <Footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </Footer>
+        <header>
+          <StyledTitle>{data.site.siteMetadata.title}</StyledTitle>
+        </header>
+        <main>{children}</main>
       </Wrapper>
-    );
-  }
-}
+    </ThemeProvider>
+  );
+};
 
 const Wrapper = styled.div`
   min-height: 100vh;
 `;
 
-const Footer = styled.footer`
-  text-align: center;
-  margin: 24px;
+const StyledTitle = styled.h1`
+  color: ${props => props.theme.primaryColor};
+  text-transform: uppercase;
 `;
 
 export default Layout;

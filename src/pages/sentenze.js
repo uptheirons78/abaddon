@@ -1,56 +1,46 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
 
-import Bio from "../components/bio";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-import { rhythm } from "../utils/typography";
-import Button from "../components/button";
 
-class Sentenze extends React.Component {
-  render() {
-    const { data } = this.props;
-    const siteTitle = data.site.siteMetadata.title;
-    const posts = data.allMdx.edges;
+const Sentenze = ({ data }) => {
+  const posts = data.allMdx.edges;
 
-    return (
-      <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="Elenco delle sentenze e decisioni rilevanti" />
-        <Bio />
-        <div style={{ margin: "20px 0 40px" }}>
-          {posts.map(({ node }) => {
-            const title = node.frontmatter.title || node.fields.slug;
-            return (
-              <div key={node.fields.slug}>
-                <h3
-                  style={{
-                    marginBottom: rhythm(1 / 4),
-                  }}
+  return (
+    <Layout>
+      <SEO title="Elenco delle sentenze e decisioni rilevanti" />
+      <div style={{ margin: "20px 0 40px" }}>
+        {posts.map(({ node }) => {
+          const title = node.frontmatter.title || node.fields.slug;
+          return (
+            <div style={{ marginBottom: "3rem" }} key={node.fields.slug}>
+              <h3
+                style={{
+                  marginBottom: "2rem",
+                }}
+              >
+                <Link
+                  style={{ boxShadow: `none` }}
+                  to={`sentenze${node.fields.slug}`}
                 >
-                  <Link
-                    style={{ boxShadow: `none` }}
-                    to={`sentenze${node.fields.slug}`}
-                  >
-                    {title}
-                  </Link>
-                </h3>
-                <small>{node.frontmatter.date}</small>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: node.frontmatter.description || node.excerpt,
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <Link to="/">
-          <Button marginTop="85px">Go Home</Button>
-        </Link>
-      </Layout>
-    );
-  }
-}
+                  {title}
+                </Link>
+              </h3>
+              <small>{node.frontmatter.date}</small>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: node.frontmatter.description || node.excerpt,
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <Link to="/">Home</Link>
+    </Layout>
+  );
+};
 
 export default Sentenze;
 
