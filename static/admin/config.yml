@@ -16,9 +16,9 @@ collections:
       - { name: title, label: Title }
       - { name: description, label: Description }
       - { name: body, label: Body, widget: markdown }
-  - name: sentenze
-    label: Sentenza
-    folder: content/sentenze
+  - name: event
+    label: Events
+    folder: content/events
     create: true
     fields:
       - { name: path, label: Path }

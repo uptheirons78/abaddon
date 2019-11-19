@@ -5,7 +5,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
 
   const blogPost = path.resolve(`./src/templates/blog-post.js`);
-  const sentenzaPost = path.resolve(`./src/templates/sentenza-post.js`);
+  const eventPost = path.resolve(`./src/templates/event-post.js`);
 
   const blogResult = await graphql(
     `
@@ -34,11 +34,11 @@ exports.createPages = async ({ graphql, actions }) => {
     throw blogResult.errors;
   }
 
-  const sentenzeResult = await graphql(
+  const eventsResult = await graphql(
     `
       {
         allMdx(
-          filter: { fileAbsolutePath: { regex: "/sentenze/" } }
+          filter: { fileAbsolutePath: { regex: "/events/" } }
           sort: { fields: [frontmatter___date], order: DESC }
           limit: 1000
         ) {
@@ -57,13 +57,13 @@ exports.createPages = async ({ graphql, actions }) => {
     `
   );
 
-  if (sentenzeResult.errors) {
-    throw sentenzeResult.errors;
+  if (eventsResult.errors) {
+    throw eventsResult.errors;
   }
 
   // Create blog posts pages.
   const posts = blogResult.data.allMdx.edges;
-  const sentenze = sentenzeResult.data.allMdx.edges;
+  const events = eventsResult.data.allMdx.edges;
 
   posts.forEach(post => {
     createPage({
@@ -75,12 +75,12 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  sentenze.forEach(sentenza => {
+  events.forEach(event => {
     createPage({
-      path: `sentenze${sentenza.node.fields.slug}`,
-      component: sentenzaPost,
+      path: `events${event.node.fields.slug}`,
+      component: eventPost,
       context: {
-        slug: sentenza.node.fields.slug,
+        slug: event.node.fields.slug,
       },
     });
   });

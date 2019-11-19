@@ -19,8 +19,8 @@ const IndexPage = () => {
         <Link style={{ marginRight: "2rem" }} to="/blog/">
           Blog
         </Link>
-        <Link style={{ marginRight: "2rem" }} to="/sentenze/">
-          Sentenze
+        <Link style={{ marginRight: "2rem" }} to="/events/">
+          Events
         </Link>
       </ul>
     </Layout>

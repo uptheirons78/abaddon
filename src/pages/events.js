@@ -4,12 +4,12 @@ import { Link, graphql } from "gatsby";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 
-const Sentenze = ({ data }) => {
+const Events = ({ data }) => {
   const posts = data.allMdx.edges;
 
   return (
     <Layout>
-      <SEO title="Elenco delle sentenze e decisioni rilevanti" />
+      <SEO title="List of all the events" />
       <div style={{ margin: "20px 0 40px" }}>
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug;
@@ -22,7 +22,7 @@ const Sentenze = ({ data }) => {
               >
                 <Link
                   style={{ boxShadow: `none` }}
-                  to={`sentenze${node.fields.slug}`}
+                  to={`events${node.fields.slug}`}
                 >
                   {title}
                 </Link>
@@ -42,7 +42,7 @@ const Sentenze = ({ data }) => {
   );
 };
 
-export default Sentenze;
+export default Events;
 
 export const pageQuery = graphql`
   query {
@@ -52,7 +52,7 @@ export const pageQuery = graphql`
       }
     }
     allMdx(
-      filter: { fileAbsolutePath: { regex: "/sentenze/" } }
+      filter: { fileAbsolutePath: { regex: "/events/" } }
       sort: { fields: [frontmatter___date], order: DESC }
     ) {
       edges {

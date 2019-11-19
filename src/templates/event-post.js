@@ -5,7 +5,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 
-const SentenzaTemplate = ({ data }) => {
+const EventTemplate = ({ data }) => {
   const post = data.mdx;
 
   return (
@@ -35,10 +35,10 @@ const SentenzaTemplate = ({ data }) => {
   );
 };
 
-export default SentenzaTemplate;
+export default EventTemplate;
 
 export const pageQuery = graphql`
-  query SentenzaBySlug($slug: String!) {
+  query EventsBySlug($slug: String!) {
     site {
       siteMetadata {
         title
